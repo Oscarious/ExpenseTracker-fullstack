@@ -42,7 +42,7 @@ export const TransactionList = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  transactions: state.transactionReducer.transactions,
+  transactions: state.transactionsReducer.transactions,
 });
 
 export default connect(mapStateToProps, { getTransactions, deleteTransaction })(TransactionList);

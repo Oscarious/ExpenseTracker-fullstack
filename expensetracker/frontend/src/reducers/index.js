@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import transactionReducer from "./transactions";
+import transactionsReducer from "./transactions";
+import errorsReducer from "./errors";
 
 export default combineReducers({
-  transactionReducer,
+  transactionsReducer,
+  errorsReducer,
 });
