@@ -16,7 +16,7 @@ export const TransactionList = (props) => {
         {props.transactions.map((transaction, index) => {
           const sig = transaction.amount < 0 ? "-" : "+";
           return (
-            <li key={index} className='my-2 relative border-2 shadow-lg group'>
+            <li key={index} className='my-2 relative border-2 shadow-md group'>
               <div
                 className={`py-2 flex justify-between border-r-4 ${
                   sig === "-" ? "border-red-600" : "border-green-600"

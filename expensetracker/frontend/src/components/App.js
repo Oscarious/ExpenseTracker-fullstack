@@ -10,6 +10,7 @@ import Balance from "./Balance";
 import TransactionList from "./TransactionList";
 import store from "../store";
 import Alerts from "./layout/Alerts";
+import { Header } from "./layout/Header";
 
 const alertOptions = {
   timeout: 3000,
@@ -22,6 +23,7 @@ export const App = () => {
       <Provider store={store}>
         <AlertProvider template={AlertTemplate} {...alertOptions}>
           <Alerts />
+          <Header />
           <Balance />
           <TransactionList />
           <AddTransaction />

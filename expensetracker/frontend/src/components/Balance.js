@@ -18,11 +18,11 @@ export const Balance = (props) => {
   const sig = balance < 0 ? "-" : "";
   return (
     <div>
-      <h2 className='text-lg uppercase font-semibold'>Your Balance</h2>
+      <h2 className='pl-5 text-lg uppercase font-semibold'>Your Balance</h2>
       <span className='text-4xl font-semibold'>
         {sig}${Math.abs(balance).toFixed(2)}
       </span>
-      <div className='flex justify-evenly mt-4 p-5 bg-white border-2 shadow-lg '>
+      <div className='flex justify-evenly mt-4 p-5 bg-white border-2 shadow-md '>
         <div className='text-center'>
           <h3 className='text-xl'>INCOME</h3>
           <p className='text-xl text-green-600'>
