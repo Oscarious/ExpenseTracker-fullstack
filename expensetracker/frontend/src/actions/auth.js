@@ -9,17 +9,12 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
 } from "./types";
-import store from "../store";
 import { errorMessage } from "./messages";
+import { tokenConfig } from "../common/auth-config";
 
 export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `token ${getState().authReducer.token}`,
-    },
-  };
+  const config = tokenConfig(getState);
   axios
     .get("/api/v1/auth/user", config)
     .then((res) =>
