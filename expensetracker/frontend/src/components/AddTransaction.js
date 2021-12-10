@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addTransaction } from "../actions/transactions";
-import { raiseEmptyTextError } from "../actions/errors";
+import { EMPTY_TEXT_ERROR } from "../actions/types";
+import store from "../store";
+import { errorMessage } from "../actions/messages";
 
 export const AddTransaction = (props) => {
   const [text, setText] = useState("");
@@ -9,11 +11,13 @@ export const AddTransaction = (props) => {
 
   const onClick = () => {
     if (text.length === 0) {
-      props.raiseEmptyTextError("Text should not be empty");
-      return ;
+      store.dispatch(
+        errorMessage(EMPTY_TEXT_ERROR, {client: ["Text should not be empty"]})
+      );
+      return;
     }
-    props.addTransaction({text: text, amount: Number(amount)});
-  }
+    props.addTransaction({ text: text, amount: Number(amount) });
+  };
 
   return (
     <div className='mt-10'>
@@ -25,7 +29,7 @@ export const AddTransaction = (props) => {
         type='text'
         className='mt-1 border-2 w-full h-10'
         placeholder='Enter Text...'
-        onChange={e => setText(e.target.value)}
+        onChange={(e) => setText(e.target.value)}
       />
       <h3 className='mt-2'>Amount</h3>
       <label className='tracking-tighter'>
@@ -35,17 +39,16 @@ export const AddTransaction = (props) => {
         type='number'
         className='mt-1 border-2 w-full h-10'
         placeholder='Enter Amount...'
-        onChange={e => setAmount(e.target.value)}
+        onChange={(e) => setAmount(e.target.value)}
       />
-      <button className='mt-6 w-full h-12 rounded-md bg-indigo-400 transform hover:bg-indigo-300 active:-translate-y-1 transition active:bg-indigo-500' onClick={onClick}>
+      <button
+        className='mt-6 w-full h-12 rounded-md bg-indigo-400 transform hover:bg-indigo-300 active:-translate-y-1 transition active:bg-indigo-500'
+        onClick={onClick}
+      >
         Add Transaction
       </button>
     </div>
   );
 };
 
-// const mapStateToProps = state => ({
-
-// });
-
-export default connect(null, { addTransaction, raiseEmptyTextError })(AddTransaction);
+export default connect(null, { addTransaction })(AddTransaction);

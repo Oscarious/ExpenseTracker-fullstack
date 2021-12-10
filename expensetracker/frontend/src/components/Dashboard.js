@@ -1,14 +1,19 @@
-import React from 'react';
-import Balance from './Balance';
-import TransactionList from './TransactionList';
-import AddTransaction from './AddTransaction';
+import React from "react";
+import Balance from "./Balance";
+import TransactionList from "./TransactionList";
+import AddTransaction from "./AddTransaction";
+import store from "../store";
+import { Navigate } from "react-router";
 
 export const Dashboard = () => {
-  return (
-    <>
-      <Balance />
-      <TransactionList />
-      <AddTransaction />
-    </>
-  )
-}
+  const isAuthenticated = store.getState().authReducer.isAuthenticated;
+  if (isAuthenticated)
+    return (
+      <>
+        <Balance />
+        <TransactionList />
+        <AddTransaction />
+      </>
+    );
+  else return <Navigate to='/login' />;
+};
