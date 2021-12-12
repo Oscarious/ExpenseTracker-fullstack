@@ -1,13 +1,17 @@
 import React, { useState } from "react";
+import moment from "moment";
+
 import { connect } from "react-redux";
 import { addTransaction } from "../actions/transactions";
 import { EMPTY_TEXT_ERROR } from "../actions/types";
 import store from "../store";
 import { errorMessage } from "../actions/messages";
 
+
 export const AddTransaction = (props) => {
   const [text, setText] = useState("");
   const [amount, setAmount] = useState(0);
+  const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -17,7 +21,7 @@ export const AddTransaction = (props) => {
       );
       return;
     }
-    props.addTransaction({ text: text, amount: Number(amount) });
+    props.addTransaction({ text, amount: Number(amount), created_at: date });
     setText("");
     setAmount(0);
   };
@@ -46,6 +50,14 @@ export const AddTransaction = (props) => {
           placeholder='Enter Amount...'
           onChange={(e) => setAmount(e.target.value)}
           value={amount}
+        />
+        <label htmlFor='transaction-date'>Date</label>
+        <input
+          type='date'
+          id='transaction-date'
+          className='mt-1 border-2 w-full h-10'
+          onChange={(e) => setDate(e.target.value)}
+          value={date}
         />
         <button
           type='submit'

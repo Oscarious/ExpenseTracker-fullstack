@@ -1,39 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import { connect } from "react-redux";
-import { getTransactions, deleteTransaction} from "../actions/transactions";
+import {
+  deleteTransaction,
+  getTransactionsByDate,
+} from "../actions/transactions";
+import Transaction from "./Transaction";
 
 export const TransactionList = (props) => {
   useEffect(() => {
-    props.getTransactions();
+    props.getTransactionsByDate();
   }, []);
 
+  const dates = [];
+  for (const date in props.transactions) {
+    dates.push(date);
+  }
   return (
     <div className='mt-5'>
       <h2 className='text-lg uppercase font-semibold border-solid border-b-2'>
         History
       </h2>
-      <ul className='mt-4 bg-white'>
-        {props.transactions.map((transaction, index) => {
-          const sig = transaction.amount < 0 ? "-" : "+";
+      <ul className='mt-4'>
+        {dates.map((date) => {
+          const dateHeading = (
+            <div className='grid place-items-center mt-5 cursor-default'>
+              <h3 className='text-center ring-4 ring-gray-300 rounded-lg font-medium text-2xl px-4'>
+                {date}
+              </h3>
+            </div>
+          );
+          const transactions = props.transactions[date].map((transaction) => {
+            return <Transaction key={transaction.id} transaction={transaction} />;
+          });
           return (
-            <li key={index} className='my-2 relative border-2 shadow-md group'>
-              <div
-                className={`py-2 flex justify-between border-r-4 ${
-                  sig === "-" ? "border-red-600" : "border-green-600"
-                }`}
-              >
-                <span className='px-3'>{transaction.text}</span>
-                <span className='px-3'>{`${sig}$${Math.abs(
-                  transaction.amount
-                ).toFixed(2)}`}</span>
-              </div>
-              <button
-                className='py-0 px-1 absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-full bg-red-700 text-white group-hover:opacity-100 transition-opacity opacity-0 focus:outline-none'
-                onClick={() => props.deleteTransaction(transaction.id)}
-              >
-                X
-              </button>
-            </li>
+            <Fragment key={date}>
+              {dateHeading}
+              {transactions}
+            </Fragment>
           );
         })}
       </ul>
@@ -42,7 +45,9 @@ export const TransactionList = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  transactions: state.transactionsReducer.transactions,
+  transactions: state.transactionsReducer.transactionsByDate,
 });
 
-export default connect(mapStateToProps, { getTransactions, deleteTransaction })(TransactionList);
+export default connect(mapStateToProps, {
+  getTransactionsByDate,
+})(TransactionList);
