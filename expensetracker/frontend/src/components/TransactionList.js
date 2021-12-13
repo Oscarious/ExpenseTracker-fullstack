@@ -1,20 +1,24 @@
 import React, { useEffect, Fragment } from "react";
 import { connect } from "react-redux";
-import {
-  deleteTransaction,
-  getTransactionsByDate,
-} from "../actions/transactions";
+import { getTransactions } from "../actions/transactions";
 import Transaction from "./Transaction";
 
 export const TransactionList = (props) => {
   useEffect(() => {
-    props.getTransactionsByDate();
+    props.getTransactions();
   }, []);
 
+  const date2Transactions = {};
   const dates = [];
-  for (const date in props.transactions) {
-    dates.push(date);
-  }
+  props.transactions.forEach(transaction => {
+    if (!date2Transactions[transaction.created_at]) {
+      date2Transactions[transaction.created_at] = [];
+      dates.push(transaction.created_at);
+    }
+    date2Transactions[transaction.created_at].push(transaction);
+  });
+  dates.sort((d1, d2) => d2.localeCompare(d1));
+
   return (
     <div className='mt-5'>
       <h2 className='text-lg uppercase font-semibold border-solid border-b-2'>
@@ -29,8 +33,10 @@ export const TransactionList = (props) => {
               </h3>
             </div>
           );
-          const transactions = props.transactions[date].map((transaction) => {
-            return <Transaction key={transaction.id} transaction={transaction} />;
+          const transactions = date2Transactions[date].map((transaction) => {
+            return (
+              <Transaction key={transaction.id} transaction={transaction} />
+            );
           });
           return (
             <Fragment key={date}>
@@ -45,9 +51,9 @@ export const TransactionList = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  transactions: state.transactionsReducer.transactionsByDate,
+  transactions: state.transactionsReducer.transactions,
 });
 
 export default connect(mapStateToProps, {
-  getTransactionsByDate,
+  getTransactions,
 })(TransactionList);
