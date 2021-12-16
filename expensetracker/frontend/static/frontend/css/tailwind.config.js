@@ -14,6 +14,7 @@ module.exports = {
     extend: {
       backgroundColor: ["active", "odd", "hover", "focus"],
       translate: ["active"],
+      ringWidth: ["hover, active"],
     },
   },
   plugins: [],
