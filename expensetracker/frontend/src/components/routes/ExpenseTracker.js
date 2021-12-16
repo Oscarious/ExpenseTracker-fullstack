@@ -16,9 +16,13 @@ const ExpenseTracker = (props) => {
 
   return (
     <Router>
-      <Header />
+      <Header className='flex justify-between py-2 bg-gray-800 flex-initial' />
       <Routes>
-        <Route exact path='/' element={<Dashboard />} />
+        <Route
+          exact
+          path='/'
+          element={<Dashboard className='flex-auto grid grid-cols-5 select-none' />}
+        />
         <Route exact path='login' element={<Login />} />
         <Route exact path='register' element={<Register />} />
       </Routes>

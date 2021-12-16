@@ -12,7 +12,7 @@ module.exports = {
   },
   variants: {
     extend: {
-      backgroundColor: ["active"],
+      backgroundColor: ["active", "odd", "hover", "focus"],
       translate: ["active"],
     },
   },

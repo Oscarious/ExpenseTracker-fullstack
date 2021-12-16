@@ -17,19 +17,21 @@ export const Balance = (props) => {
   const balance = income + expense;
   const sig = balance < 0 ? "-" : "";
   return (
-    <div>
-      <h2 className='pl-5 text-lg uppercase font-semibold'>Your Balance</h2>
-      <span className='text-4xl font-semibold'>
+    <div className={props.className + ' cursor-default'}>
+      <div className='border-b flex justify-between pb-1'>
+        <span className='text-xs font-light'>Your Balance</span>
+      </div>
+      <div className='mt-4 text-center text-4xl font-semibold'>
         {sig}${Math.abs(balance).toFixed(2)}
-      </span>
-      <div className='flex justify-evenly mt-4 p-5 bg-white border-2 shadow-md '>
+      </div>
+      <div className='flex flex-col justify-evenly gap-y-3 overflow-hidden mt-4 p-5 bg-white border-2 shadow-md '>
         <div className='text-center'>
           <h3 className='text-xl'>INCOME</h3>
           <p className='text-xl text-green-600'>
             ${Math.abs(income).toFixed(2)}
           </p>
         </div>
-        <span className='border-r-2'></span>
+        <span className='border-b-2'></span>
         <div className='text-center'>
           <h3 className='text-xl'>EXPENSE</h3>
           <p className='text-xl text-red-700'>

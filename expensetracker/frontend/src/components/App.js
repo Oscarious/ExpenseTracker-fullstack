@@ -22,7 +22,7 @@ const alertOptions = {
 
 export const App = () => {
   return (
-    <div className='bg-gray-50 m-auto w-3/4 min-w-min'>
+    <div className='bg-gray-50 m-0 h-screen flex flex-col'>
       <Provider store={store}>
         <AlertProvider template={AlertTemplate} {...alertOptions}>
           <Alerts />

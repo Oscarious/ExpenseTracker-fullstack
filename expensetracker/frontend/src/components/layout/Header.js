@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { logout } from "../../actions/auth";
+import { StyledLink, StyledButton } from "./AuthStyleComponents";
 
 const Header = (props) => {
   const onLogout = (e) => {
@@ -9,43 +9,38 @@ const Header = (props) => {
   };
 
   const authLinks = (
-    <div className='flex flex-col items-end text-white cursor-default mr-2'>
-      <div>
+    <ul className='flex pr-2 my-auto'>
+      <li className='text-sm text-white mr-6 my-auto cursor-default'>
         <strong>Welcome </strong>
-        <strong className='hover:text-blue-900'>
+        <strong className='hover:text-blue-200'>
           {props.user ? props.user.username : ""}
         </strong>
         <strong> !</strong>
-      </div>
-      <div>
-        <button
-          className='hover:text-blue-900 text-sm border-none'
-          onClick={onLogout}
-        >
-          Logout
-        </button>
-      </div>
-    </div>
+      </li>
+      <li>
+        <StyledButton onClick={onLogout}>Logout</StyledButton>
+      </li>
+    </ul>
   );
 
   const guestLinks = (
-    <ul className='flex pr-2 mt-2'>
+    <ul className='flex pr-2 my-auto'>
       <li className='mr-6'>
-        <Link to='/register' className='text-white hover:text-blue-900'>
-          Register
-        </Link>
+        <StyledLink to='/register'>Register</StyledLink>
       </li>
       <li>
-        <Link to='/login' className='text-white hover:text-blue-900'>
-          Login
-        </Link>
+        <StyledLink to='/login'>Login</StyledLink>
       </li>
     </ul>
   );
 
   return (
-    <nav className='flex justify-between py-2 bg from-red-300 to-blue-300 bg-gradient-to-tl'>
-      <a className='navbar-brand text-4xl font-light pl-2' href='/'>
+    // <nav className='flex justify-between py-2 bg-gray-800 flex-initial'>
+    <nav className={props.className}>
+      <a
+        className='navbar-brand text-xl font-bold text-white my-auto pl-4'
+        href='/'
+      >
         Expense Tracker
       </a>
       {props.isAuthenticated ? authLinks : guestLinks}
