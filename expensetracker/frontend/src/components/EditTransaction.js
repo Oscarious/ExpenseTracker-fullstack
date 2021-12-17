@@ -4,6 +4,9 @@ import { CustomDateInput } from "./layout/CustomDateInput";
 
 export const EditTransaction = ({ onSave, onCancel }) => {
   const [date, setDate] = useState(new Date());
+  const [subject, setSubject] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [comment, setComment] = useState("");
 
   return (
     <div className='bg-white rounded-md w-72'>
@@ -16,6 +19,7 @@ export const EditTransaction = ({ onSave, onCancel }) => {
               <input
                 type='text'
                 className='bg-gray-200 rounded-sm text-sm font-light w-full'
+                onChange={(e) => setSubject(e.target.value)}
               />
             </div>
             <div>
@@ -23,6 +27,7 @@ export const EditTransaction = ({ onSave, onCancel }) => {
               <input
                 type='number'
                 className='bg-gray-200 rounded-sm text-sm font-light w-full'
+                onChange={(e) => setAmount(e.target.value)}
               />
             </div>
             <div className='flex flex-col'>
@@ -38,6 +43,7 @@ export const EditTransaction = ({ onSave, onCancel }) => {
               <textarea
                 type='text'
                 className='bg-gray-200 rounded-sm text-sm h-20'
+                onChange={(e) => setComment(e.target.value)}
               />
             </div>
           </div>
