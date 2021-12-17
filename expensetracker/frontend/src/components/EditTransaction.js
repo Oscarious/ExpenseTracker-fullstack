@@ -4,12 +4,12 @@ import { CustomDateInput } from "./layout/CustomDateInput";
 import { addTransaction } from "../actions/transactions";
 import { connect } from "react-redux";
 
-const EditTransaction = ({ onCancel, addTransaction }) => {
-  const [date, setDate] = useState(new Date());
+const EditTransaction = ({ transaction, onCancel, addTransaction, isDeletable=false }) => {
+  const [date, setDate] = useState(transaction ? transaction.date : new Date());
   const [dateStr, setDateStr] = useState(date.toISOString().split("T")[0]);
-  const [subject, setSubject] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [comment, setComment] = useState("");
+  const [subject, setSubject] = useState(transaction ? transaction.subject : "");
+  const [amount, setAmount] = useState(transaction ? transaction.amount : 0);
+  const [comment, setComment] = useState(transaction ? transaction.comment : "");
 
   const onSave = () => {
     addTransaction({ subject, amount, comment, created_at: dateStr });
@@ -64,6 +64,9 @@ const EditTransaction = ({ onCancel, addTransaction }) => {
               onClick={onSave}
             >
               Save
+            </button>
+            <button className={`bg-red-600 rounded-md text-white w-16 hover:bg-red-500 ${isDeletable ? '' : 'hidden'}`}>
+              Delete
             </button>
             <button
               className='bg-gray-100 rounded-md text-blue-400 w-16 hover:bg-gray-200'
