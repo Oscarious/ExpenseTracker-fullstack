@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { getTransactions } from "../actions/transactions";
 import { Overlay } from "./layout/Overlay";
 import Transaction from "./Transaction";
-import { EditTransaction } from "./EditTransaction";
+import EditTransaction from "./EditTransaction";
 
 export const TransactionList = (props) => {
   useEffect(() => {

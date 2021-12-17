@@ -2,7 +2,7 @@ import {
   ADD_TRANSACTION,
   DELETE_TRANSACTION,
   GET_TRANSACTIONS,
-  GET_TRANSACTIONS_BY_DATE,
+  ADD_TRANSACTIONS_ERROR,
   GET_TRANSACTIONS_ERROR,
 } from "../actions/types";
 import { tokenConfig } from "../common/auth-config";
@@ -54,7 +54,12 @@ export const addTransaction = (transaction) => (dispatch, getState) => {
         payload: res.data,
       });
     })
-    .catch((err) =>
-      dispatch(errorMessage(GET_TRANSACTIONS_ERROR, err.response.data))
-    );
+    .catch((err) => {
+      if (err.response) {
+        console.log(err);
+        dispatch(errorMessage(ADD_TRANSACTIONS_ERROR, err.response.data));
+      } else {
+        console.log(err);
+      }
+    });
 };
