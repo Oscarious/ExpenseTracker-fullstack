@@ -33,9 +33,9 @@ export const TransactionList = (props) => {
             return (
               <tr className='border-b odd:bg-blue-50' key={transaction.id}>
                 <td className='p-1'>{transaction.created_at}</td>
-                <td>{transaction.text}</td>
+                <td>{transaction.subject}</td>
                 <td>${transaction.amount}</td>
-                <td>...</td>
+                <td>{transaction.text}</td>
               </tr>
             );
           })}
