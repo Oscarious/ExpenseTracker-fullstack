@@ -11,6 +11,7 @@ export const Alerts = (props) => {
       else if (error.msg.non_field_errors) alert.error(error.msg.non_field_errors.join());
       else if (error.msg.client) alert.error(error.msg.client.join());
       else if (error.msg.password) alert.error(`password: ${error.msg.password.join()}`);
+      else if (error.msg.comment) alert.error(`comment: ${error.msg.comment.join()}`);
       else {
         console.log(error.msg);
         alert.error('unknown errors see console for more details');

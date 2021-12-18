@@ -12,12 +12,26 @@ export const TransactionList = (props) => {
     props.getTransactions();
   }, []);
 
-  const [isHidden, setIsHidden] = useState(true);
+  const [editorConfig, setEditorConfig] = useState({
+    isHidden: true,
+    isDeletable: false,
+    transaction: null,
+  });
 
   return (
     <div className={props.className + " relative"}>
-      <Overlay isHidden={isHidden} className='grid place-items-center'>
-        <EditTransaction onCancel={() => setIsHidden(true)} />
+      <Overlay isHidden={editorConfig.isHidden} className='grid place-items-center'>
+        <EditTransaction
+          onCancel={() => {
+            setEditorConfig({
+              isHidden: true,
+              isDeletable: false,
+              transaction: editorConfig.transaction,
+            });
+          }}
+          isDeletable={editorConfig.isDeletable}
+          transaction={editorConfig.transaction}
+        />
       </Overlay>
       <table className='bg-white w-full cursor-default'>
         <thead>
@@ -31,11 +45,21 @@ export const TransactionList = (props) => {
         <tbody className='text-sm'>
           {props.transactions.map((transaction) => {
             return (
-              <tr className='border-b odd:bg-blue-50' key={transaction.id}>
+              <tr
+                className='border-b odd:bg-blue-50 hover:bg-blue-200'
+                key={transaction.id}
+                onClick={() => {
+                  setEditorConfig({
+                    isHidden: false,
+                    isDeletable: true,
+                    transaction: transaction
+                  })
+                }}
+              >
                 <td className='p-1'>{transaction.created_at}</td>
                 <td>{transaction.subject}</td>
                 <td>${transaction.amount}</td>
-                <td>{transaction.text}</td>
+                <td>{transaction.comment}</td>
               </tr>
             );
           })}
@@ -43,7 +67,13 @@ export const TransactionList = (props) => {
       </table>
       <button
         className='absolute bottom-6 right-6 font-bold text-xl text-white border-2 bg-red-500 rounded-full w-12 h-12 hover:ring-2 ring-red-300'
-        onClick={() => setIsHidden(!isHidden)}
+        onClick={() => {
+          setEditorConfig({
+            isHidden: !editorConfig.isHidden,
+            isDeletable: false,
+            transaction: null,
+          });
+        }}
       >
         +
       </button>

@@ -45,6 +45,7 @@ export const deleteTransaction = (id) => (dispatch, getState) => {
 };
 
 export const addTransaction = (transaction) => (dispatch, getState) => {
+  console.log(transaction);
   const config = tokenConfig(getState);
   axios
     .post("/api/v1/transactions/", transaction, config)
@@ -56,7 +57,7 @@ export const addTransaction = (transaction) => (dispatch, getState) => {
     })
     .catch((err) => {
       if (err.response) {
-        console.log(err);
+        console.log(err.response);
         dispatch(errorMessage(ADD_TRANSACTIONS_ERROR, err.response.data));
       } else {
         console.log(err);
