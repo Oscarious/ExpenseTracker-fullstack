@@ -1,4 +1,4 @@
-export const errorMessage = (type, msg, status=null) => ({
+export const infoMessage = (type, msg) => ({
   type,
-  payload: {msg, status}
+  msg,
 });

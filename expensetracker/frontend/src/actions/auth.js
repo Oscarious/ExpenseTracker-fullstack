@@ -9,7 +9,7 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
 } from "./types";
-import { errorMessage } from "./messages";
+import { errorMessage } from "./errors";
 import { tokenConfig } from "../common/auth-config";
 
 export const loadUser = () => (dispatch, getState) => {

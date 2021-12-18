@@ -7,6 +7,7 @@ import {
   updateTransaction,
 } from "../actions/transactions";
 import { connect } from "react-redux";
+import { raiseEmptyTextError } from "../actions/errors";
 
 const EditTransaction = ({
   transaction,
@@ -91,6 +92,10 @@ const EditTransaction = ({
             <button
               className='bg-blue-500 rounded-md text-white w-16 hover:bg-blue-600'
               onClick={() => {
+                if (!subject || !subject.length) {
+                  props.raiseEmptyTextError("subject shouldn't be empty");
+                  return ;
+                }
                 if (!isDeletable) {
                   props.addTransaction({
                     subject,
@@ -140,4 +145,5 @@ export default connect(null, {
   addTransaction,
   deleteTransaction,
   updateTransaction,
+  raiseEmptyTextError,
 })(EditTransaction);

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { addTransaction } from "../actions/transactions";
 import { EMPTY_TEXT_ERROR } from "../actions/types";
 import store from "../store";
-import { errorMessage } from "../actions/messages";
+import { errorMessage } from "../actions/errors";
 
 
 export const AddTransaction = (props) => {
