@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { CustomDateInput } from "./layout/CustomDateInput";
-import { addTransaction, deleteTransaction, testInvoking } from "../actions/transactions";
+import {
+  addTransaction,
+  deleteTransaction,
+  updateTransaction,
+} from "../actions/transactions";
 import { connect } from "react-redux";
 
 const EditTransaction = ({
@@ -94,6 +98,14 @@ const EditTransaction = ({
                     comment,
                     created_at: dateStr,
                   });
+                } else {
+                  props.updateTransaction({
+                    id: transaction.id,
+                    subject,
+                    amount,
+                    comment,
+                    created_at: dateStr,
+                  });
                 }
                 onCancel();
               }}
@@ -124,6 +136,8 @@ const EditTransaction = ({
   );
 };
 
-export default connect(null, { addTransaction, deleteTransaction })(
-  EditTransaction
-);
+export default connect(null, {
+  addTransaction,
+  deleteTransaction,
+  updateTransaction,
+})(EditTransaction);

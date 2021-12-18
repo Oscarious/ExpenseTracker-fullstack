@@ -1,10 +1,8 @@
-import moment from "moment";
-import { deleteTransaction } from "../actions/transactions";
-import { Navigate } from "react-router-dom";
 import {
   ADD_TRANSACTION,
   DELETE_TRANSACTION,
   GET_TRANSACTIONS,
+  UPDATE_TRANSACTION,
 } from "../actions/types";
 
 const initialState = {
@@ -31,6 +29,20 @@ export default (state = initialState, action) => {
         ...state,
         transactions: [action.payload, ...state.transactions],
       };
+    case UPDATE_TRANSACTION: {
+      const newTransactions = state.transactions.map((transaction) => {
+        // console.log(transaction, action.payload)
+        if (transaction.id === action.payload.id) {
+          return action.payload;
+        }
+        return transaction;
+      });
+      return {
+        ...state,
+        transactions: newTransactions,
+      };
+    }
+
     default:
       return state;
   }

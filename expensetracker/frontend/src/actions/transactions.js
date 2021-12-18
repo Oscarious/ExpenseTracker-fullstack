@@ -2,8 +2,10 @@ import {
   ADD_TRANSACTION,
   DELETE_TRANSACTION,
   GET_TRANSACTIONS,
-  ADD_TRANSACTIONS_ERROR,
+  UPDATE_TRANSACTION,
+  ADD_TRANSACTION_ERROR,
   GET_TRANSACTIONS_ERROR,
+  UPDATE_TRANSACTION_ERROR,
 } from "../actions/types";
 import { tokenConfig } from "../common/auth-config";
 import { errorMessage } from "./messages";
@@ -45,7 +47,6 @@ export const deleteTransaction = (id) => (dispatch, getState) => {
 };
 
 export const addTransaction = (transaction) => (dispatch, getState) => {
-  console.log(transaction);
   const config = tokenConfig(getState);
   axios
     .post("/api/v1/transactions/", transaction, config)
@@ -58,7 +59,27 @@ export const addTransaction = (transaction) => (dispatch, getState) => {
     .catch((err) => {
       if (err.response) {
         console.log(err.response);
-        dispatch(errorMessage(ADD_TRANSACTIONS_ERROR, err.response.data));
+        dispatch(errorMessage(ADD_TRANSACTION_ERROR, err.response.data));
+      } else {
+        console.log(err);
+      }
+    });
+};
+
+export const updateTransaction = (transaction) => (dispatch, getState) => {
+  const config = tokenConfig(getState);
+  axios
+    .put(`/api/v1/transactions/${transaction.id}/`, transaction, config)
+    .then((res) => {
+      dispatch({
+        type: UPDATE_TRANSACTION,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+        dispatch(errorMessage(UPDATE_TRANSACTION_ERROR, err.response.data));
       } else {
         console.log(err);
       }

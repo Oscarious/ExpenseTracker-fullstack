@@ -1,8 +1,14 @@
-import { ADD_TRANSACTIONS_ERROR, EMPTY_TEXT_ERROR, LOGIN_ERROR, REGISTER_ERROR } from "../actions/types";
+import {
+  ADD_TRANSACTION_ERROR,
+  UPDATE_TRANSACTION_ERROR,
+  EMPTY_TEXT_ERROR,
+  LOGIN_ERROR,
+  REGISTER_ERROR,
+} from "../actions/types";
 
 const initialState = {
   msg: null,
-  status: null
+  status: null,
 };
 
 export default (state = initialState, action) => {
@@ -10,8 +16,9 @@ export default (state = initialState, action) => {
     case EMPTY_TEXT_ERROR:
     case REGISTER_ERROR:
     case LOGIN_ERROR:
-    case ADD_TRANSACTIONS_ERROR:
-      return {...state, msg: action.payload.msg, status: action.payload.msg};
+    case ADD_TRANSACTION_ERROR:
+    case UPDATE_TRANSACTION_ERROR:
+      return { ...state, msg: action.payload.msg, status: action.payload.msg };
     default:
       return state;
   }
