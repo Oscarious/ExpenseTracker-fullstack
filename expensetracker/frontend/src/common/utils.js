@@ -1,0 +1,1 @@
+export const date2LocaleDateStr = (date) => date.toLocaleDateString().replaceAll("/", "-");

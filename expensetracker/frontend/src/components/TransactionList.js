@@ -82,7 +82,7 @@ export const TransactionList = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  transactions: state.transactionsReducer.transactions,
+  transactions: state.transactionsReducer.displayedTransactions,
 });
 
 export default connect(mapStateToProps, {

@@ -9,6 +9,7 @@ import {
   ADD_TRANSACTION_SUCCESS,
   DELETE_TRANSACTION_SUCCESS,
   UPDATE_TRANSACTION_SUCCESS,
+  FILTER_TRANSACTIONS,
 } from "../actions/types";
 import {
   INFO_UPDATE_TRANSACTION_SUCCESS,
@@ -102,4 +103,11 @@ export const updateTransaction = (transaction) => (dispatch, getState) => {
         console.log(err);
       }
     });
+};
+
+export const filterTransactions = (condition) => (dispatch) => {
+  dispatch({
+    type: FILTER_TRANSACTIONS,
+    payload: condition,
+  });
 };

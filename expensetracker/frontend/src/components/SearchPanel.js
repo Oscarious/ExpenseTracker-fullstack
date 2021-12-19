@@ -1,10 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
+import { connect } from "react-redux";
 import { CustomDateInput } from "./layout/CustomDateInput";
+import { filterTransactions, getTransactions } from "../actions/transactions";
+import { NOT_SELECTED } from "../common/constants";
 
-export const SearchPanel = (props) => {
-  const [from, setFrom] = useState(new Date());
-  const [to, setTo] = useState(new Date());
+const SearchPanel = (props) => {
+  const [from, setFrom] = useState(null);
+  const [to, setTo] = useState(null);
+  // filter unique subjects
+  const subjects = [
+    NOT_SELECTED,
+    ...props.transactions
+      .map((transaction) => transaction.subject)
+      .filter((value, index, self) => self.indexOf(value) === index),
+  ];
+
+  const [condition, setCondition] = useState({
+    from: null,
+    to: null,
+    subject: { index: 0, value: NOT_SELECTED },
+    minAmount: null,
+    maxAmount: null,
+  });
+
+  useEffect(() => {
+    props.filterTransactions(condition);
+  }, [props.transactions, condition]);
 
   return (
     <div className={props.className + " cursor-default"}>
@@ -18,17 +40,17 @@ export const SearchPanel = (props) => {
         <div className='flex flex-col'>
           <p className='text-xs'>From</p>
           <DatePicker
-            selected={from}
-            onChange={(date) => setFrom(date)}
+            selected={condition.from}
+            onChange={(date) => setCondition({ ...condition, from: date })}
             isClearable
-            customInput={<CustomDateInput className='w-5/6 bg-gray-300'/>}
+            customInput={<CustomDateInput className='w-5/6 bg-gray-300' />}
           />
           <p className='text-xs mt-2'>To</p>
           <DatePicker
-            selected={to}
-            onChange={(date) => setTo(date)}
+            selected={condition.to}
+            onChange={(date) => setCondition({ ...condition, to: date })}
             isClearable
-            customInput={<CustomDateInput className='w-5/6 bg-gray-300'/>}
+            customInput={<CustomDateInput className='w-5/6 bg-gray-300' />}
           />
         </div>
         <div className='flex justify-between'>
@@ -37,6 +59,10 @@ export const SearchPanel = (props) => {
             <input
               className='w-full bg-gray-300 rounded-sm'
               type='number'
+              onChange={(e) =>
+                setCondition({ ...condition, minAmount: e.target.value })
+              }
+              value={condition.minAmount || ""}
             ></input>
           </div>
           <div className='mx-1 grid place-items-end'>
@@ -47,19 +73,41 @@ export const SearchPanel = (props) => {
             <input
               className='w-full bg-gray-300 rounded-sm'
               type='number'
+              onChange={(e) =>
+                setCondition({ ...condition, maxAmount: e.target.value })
+              }
+              value={condition.maxAmount || ""}
             ></input>
           </div>
         </div>
         <div>
           <p className='text-xs'>Subject</p>
-          <select className='bg-gray-300 rounded-sm w-full text-sm font-light'>
-            <option value='sub1'>sub1</option>
-            <option value='sub2'>sub2</option>
-            <option value='sub3'>sub3</option>
-            <option value='sub4'>sub4</option>
+          <select
+            className='bg-gray-300 rounded-sm w-full text-sm font-light'
+            onChange={(e) =>
+              setCondition({
+                ...condition,
+                subject: {
+                  index: e.target.options.selectedIndex,
+                  value: e.target.value,
+                },
+              })
+            }
+          >
+            {subjects.map((subject, index) => (
+              <option value={subject} key={index}>
+                {subject}
+              </option>
+            ))}
           </select>
         </div>
       </div>
     </div>
   );
 };
+
+const mapStateToProps = (state) => ({
+  transactions: state.transactionsReducer.transactions,
+});
+
+export default connect(mapStateToProps, { filterTransactions })(SearchPanel);

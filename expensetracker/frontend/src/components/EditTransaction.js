@@ -8,6 +8,7 @@ import {
 } from "../actions/transactions";
 import { connect } from "react-redux";
 import { raiseEmptyTextError } from "../actions/errors";
+import { date2LocaleDateStr } from "../common/utils";
 
 const EditTransaction = ({
   transaction,
@@ -16,7 +17,7 @@ const EditTransaction = ({
   ...props
 }) => {
   const [date, setDate] = useState(new Date());
-  const [dateStr, setDateStr] = useState(date.toISOString().split("T")[0]);
+  const [dateStr, setDateStr] = useState(date2LocaleDateStr(date));
   const [subject, setSubject] = useState("");
   const [amount, setAmount] = useState(0);
   const [comment, setComment] = useState("");
@@ -24,7 +25,7 @@ const EditTransaction = ({
   useEffect(() => {
     if (!isDeletable) {
       setDate(new Date());
-      setDateStr(date.toISOString().split("T")[0]);
+      setDateStr(date2LocaleDateStr(date));
       setSubject("");
       setAmount(0);
       setComment("");
@@ -69,9 +70,7 @@ const EditTransaction = ({
               <DatePicker
                 selected={date}
                 onChange={(date) => {
-                  const dateStr = date
-                    .toLocaleDateString()
-                    .replaceAll("/", "-");
+                  const dateStr = date2LocaleDateStr(date);
                   setDate(date);
                   setDateStr(dateStr);
                 }}
@@ -94,7 +93,7 @@ const EditTransaction = ({
               onClick={() => {
                 if (!subject || !subject.length) {
                   props.raiseEmptyTextError("subject shouldn't be empty");
-                  return ;
+                  return;
                 }
                 if (!isDeletable) {
                   props.addTransaction({

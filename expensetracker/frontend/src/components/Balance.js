@@ -1,13 +1,7 @@
-import React, { useEffect } from "react";
-import { GET_TRANSACTIONS } from "../actions/types";
+import React from "react";
 import { connect } from "react-redux";
-import { getTransactions } from "../actions/transactions";
 
 export const Balance = (props) => {
-  useEffect(() => {
-    props.getTransactions();
-  }, []);
-
   let income = 0;
   let expense = 0;
   props.transactions.forEach((transaction) => {
@@ -17,7 +11,7 @@ export const Balance = (props) => {
   const balance = income + expense;
   const sig = balance < 0 ? "-" : "";
   return (
-    <div className={props.className + ' cursor-default'}>
+    <div className={props.className + " cursor-default"}>
       <div className='border-b flex justify-between pb-1'>
         <span className='text-xs font-light'>Your Balance</span>
       </div>
@@ -47,4 +41,4 @@ const mapStateToProps = (state) => ({
   transactions: state.transactionsReducer.transactions,
 });
 
-export default connect(mapStateToProps, { getTransactions })(Balance);
+export default connect(mapStateToProps)(Balance);
