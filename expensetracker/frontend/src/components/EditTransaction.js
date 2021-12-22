@@ -22,6 +22,10 @@ const EditTransaction = ({
   const [amount, setAmount] = useState("");
   const [comment, setComment] = useState("");
 
+  const subjects = props.transactions
+    .map((transaction) => transaction.subject)
+    .filter((value, index, self) => self.indexOf(value) === index);
+
   useEffect(() => {
     if (!isDeletable) {
       setDate(new Date());
@@ -49,12 +53,25 @@ const EditTransaction = ({
           <div className='w-2/3 grid grid-cols-1 gap-y-3'>
             <div>
               <p className='text-xs'>Subject</p>
-              <input
-                type='text'
-                className='bg-gray-200 rounded-sm text-sm font-light w-full p-1'
-                onChange={(e) => setSubject(e.target.value)}
-                value={subject}
-              />
+              <div className='relative'>
+                <select
+                  onChange={(e) => setSubject(e.target.value)}
+                  className='bg-gray-200 rounded-sm text-sm font-light p-1 w-full outline-none'
+                >
+                  {subjects.map((subject) => (
+                    <option key={subject} value={subject}>
+                      {subject}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type='text'
+                  name='format'
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  className='absolute left-0 w-11/12 bg-gray-200 rounded-sm text-sm font-light p-1 outline-none'
+                />
+              </div>
             </div>
             <div>
               <p className='text-xs'>Amount</p>
@@ -62,7 +79,7 @@ const EditTransaction = ({
                 type='number'
                 className='bg-gray-200 rounded-sm text-sm font-light w-full p-1'
                 onChange={(e) => setAmount(e.target.value)}
-                value = {amount}
+                value={amount}
               />
             </div>
             <div className='flex flex-col'>
@@ -140,7 +157,11 @@ const EditTransaction = ({
   );
 };
 
-export default connect(null, {
+const mapStateToPros = (state) => ({
+  transactions: state.transactionsReducer.transactions,
+});
+
+export default connect(mapStateToPros, {
   addTransaction,
   deleteTransaction,
   updateTransaction,
