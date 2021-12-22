@@ -19,7 +19,7 @@ const EditTransaction = ({
   const [date, setDate] = useState(new Date());
   const [dateStr, setDateStr] = useState(date2LocaleDateStr(date));
   const [subject, setSubject] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("");
   const [comment, setComment] = useState("");
 
   useEffect(() => {
@@ -40,13 +40,13 @@ const EditTransaction = ({
   }, [transaction]);
 
   return (
-    <div className='bg-white rounded-md w-72'>
+    <div className='bg-white rounded-md w-96'>
       <div className='m-4'>
         <h2 className='font-bold text-xl mb-3'>
           {isDeletable ? "Edit Transaction" : "Add Transaction"}
         </h2>
         <div className='flex justify-between'>
-          <div className='grid grid-cols-1 gap-y-3'>
+          <div className='w-2/3 grid grid-cols-1 gap-y-3'>
             <div>
               <p className='text-xs'>Subject</p>
               <input
@@ -61,8 +61,8 @@ const EditTransaction = ({
               <input
                 type='number'
                 className='bg-gray-200 rounded-sm text-sm font-light w-full p-1'
-                onChange={(e) => setAmount(Number(e.target.value))}
-                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                value = {amount}
               />
             </div>
             <div className='flex flex-col'>
@@ -81,7 +81,7 @@ const EditTransaction = ({
               <p className='text-xs'>Comment</p>
               <textarea
                 type='text'
-                className='bg-gray-200 rounded-sm text-sm h-20 p-1'
+                className='bg-gray-200 rounded-sm text-sm h-20 p-1 w-full'
                 onChange={(e) => setComment(e.target.value)}
                 value={comment ? comment : ""}
               />
