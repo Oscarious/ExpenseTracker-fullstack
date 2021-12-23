@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 export const Balance = (props) => {
   let income = 0;
   let expense = 0;
-  props.transactions.forEach((transaction) => {
+  props.displayedTransactions.forEach((transaction) => {
     if (transaction.amount < 0) expense += transaction.amount;
     else income += transaction.amount;
   });
@@ -38,7 +38,7 @@ export const Balance = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  transactions: state.transactionsReducer.transactions,
+  displayedTransactions: state.transactionsReducer.displayedTransactions,
 });
 
 export default connect(mapStateToProps)(Balance);
