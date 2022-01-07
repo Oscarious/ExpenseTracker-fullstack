@@ -3,6 +3,7 @@ import {
   DELETE_TRANSACTION,
   FILTER_TRANSACTIONS,
   GET_TRANSACTIONS,
+  SORT_TRANSACTIONS,
   UPDATE_TRANSACTION,
 } from "../actions/types";
 import {
@@ -14,6 +15,11 @@ import { date2LocaleDateStr } from "../common/utils";
 const initialState = {
   transactions: [],
   displayedTransactions: [],
+  sortOrder: {
+    created_at: 1,
+    subject: 1,
+    amount: 1,
+  },
 };
 
 export default (state = initialState, action) => {
@@ -82,6 +88,28 @@ export default (state = initialState, action) => {
       return {
         ...state,
         displayedTransactions: newDispalyedTransactions,
+      };
+    }
+    case SORT_TRANSACTIONS: {
+      const keyword = action.payload.keyword;
+      const order = action.payload.order;
+      const newDispalyedTransactions = [...state.displayedTransactions].sort(
+        (a, b) => {
+          if (typeof a[keyword] == "number") {
+            if (order < 0) return b[keyword] - a[keyword];
+            else return a[keyword] - b[keyword];
+          } else if (typeof a[keyword] == "string") {
+            if (order < 0) return b[keyword].localeCompare(a[keyword]);
+            else return a[keyword].localeCompare(b[keyword]);
+          }
+        }
+      );
+      const newSortOrder = { ...state.sortOrder };
+      newSortOrder[keyword] *= -1;
+      return {
+        ...state,
+        displayedTransactions: newDispalyedTransactions,
+        sortOrder: newSortOrder,
       };
     }
     default:

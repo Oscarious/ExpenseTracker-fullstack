@@ -6,6 +6,7 @@ import { getTransactions } from "../actions/transactions";
 import { Overlay } from "./layout/Overlay";
 import Transaction from "./Transaction";
 import EditTransaction from "./EditTransaction";
+import { sortTransactions } from "../actions/transactions";
 
 export const TransactionList = (props) => {
   useEffect(() => {
@@ -20,7 +21,10 @@ export const TransactionList = (props) => {
 
   return (
     <div className={props.className + " relative"}>
-      <Overlay isHidden={editorConfig.isHidden} className='grid place-items-center'>
+      <Overlay
+        isHidden={editorConfig.isHidden}
+        className='grid place-items-center'
+      >
         <EditTransaction
           onCancel={() => {
             setEditorConfig({
@@ -35,11 +39,30 @@ export const TransactionList = (props) => {
       </Overlay>
       <table className='bg-white w-full cursor-default'>
         <thead>
-          <tr className='text-left h-8'>
-            <th className='border-r w-1/6 pl-2'>Date</th>
-            <th className='border-r w-1/6 pl-2'>Subject</th>
-            <th className='border-r w-1/6 pl-2'>Amount</th>
-            <th className='border-r text-center'>Comment</th>
+          <tr className='text-left h-8 cursor-pointer'>
+            <th
+              className='border-r w-1/6 pl-2'
+              onClick={() =>
+                props.sortTransactions("created_at", props.sortOrder.created_at)
+              }
+            >
+              Date
+            </th>
+            <th
+              className='border-r w-1/6 pl-2'
+              onClick={() =>
+                props.sortTransactions("subject", props.sortOrder.subject)
+              }
+            >
+              Subject
+            </th>
+            <th
+              className='border-r w-1/6 pl-2'
+              onClick={() => props.sortTransactions("amount", props.sortOrder.amount)}
+            >
+              Amount
+            </th>
+            <th className='border-r text-center cursor-default'>Comment</th>
           </tr>
         </thead>
         <tbody className='text-sm'>
@@ -52,8 +75,8 @@ export const TransactionList = (props) => {
                   setEditorConfig({
                     isHidden: false,
                     isDeletable: true,
-                    transaction: transaction
-                  })
+                    transaction: transaction,
+                  });
                 }}
               >
                 <td className='p-1'>{transaction.created_at}</td>
@@ -83,8 +106,10 @@ export const TransactionList = (props) => {
 
 const mapStateToProps = (state) => ({
   transactions: state.transactionsReducer.displayedTransactions,
+  sortOrder: state.transactionsReducer.sortOrder,
 });
 
 export default connect(mapStateToProps, {
   getTransactions,
+  sortTransactions,
 })(TransactionList);

@@ -9,6 +9,7 @@ export const UPDATE_TRANSACTION_SUCCESS = "UPDATE_TRANSACTION_SUCCESS";
 
 //local transaction actions
 export const FILTER_TRANSACTIONS = "FILTER_TRANSACTIONS";
+export const SORT_TRANSACTIONS = "SORT_TRANSACTIONS";
 
 // auth actions
 export const USER_LOADING = "USER_LOADING";

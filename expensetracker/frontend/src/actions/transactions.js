@@ -10,6 +10,7 @@ import {
   DELETE_TRANSACTION_SUCCESS,
   UPDATE_TRANSACTION_SUCCESS,
   FILTER_TRANSACTIONS,
+  SORT_TRANSACTIONS,
 } from "../actions/types";
 import {
   INFO_UPDATE_TRANSACTION_SUCCESS,
@@ -111,3 +112,10 @@ export const filterTransactions = (condition) => (dispatch) => {
     payload: condition,
   });
 };
+
+export const sortTransactions = (keyword, order) => (dispatch) => {
+  dispatch({
+    type: SORT_TRANSACTIONS,
+    payload: {keyword, order}
+  });
+}
