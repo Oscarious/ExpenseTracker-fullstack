@@ -66,7 +66,7 @@ export const TransactionList = (props) => {
         </tbody>
       </table>
       <button
-        className='absolute bottom-6 right-6 font-bold text-xl text-white border-2 bg-red-500 rounded-full w-12 h-12 hover:ring-2 ring-red-300'
+        className='fixed bottom-6 right-6 font-bold text-xl text-white border-2 bg-red-500 rounded-full w-12 h-12 hover:ring-2 ring-red-300'
         onClick={() => {
           setEditorConfig({
             isHidden: !editorConfig.isHidden,
